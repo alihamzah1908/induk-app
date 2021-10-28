@@ -1,0 +1,128 @@
+<div class="content-wrapper">
+    <div class="row">
+        <div class="col-md-12">
+            {{!-- <button type="button" rel="tooltip" title="Edit Task" class="btn btn-primary btn-link btn-sm add">
+                <i class="material-icons">add</i>
+            </button> --}}
+            <div class="card">
+                <div class="card-header card-header-primary">
+                    <h4 class="card-title mt-0"> Data Desa</h4>
+                </div>
+                <div class="card-body">
+                    <div class="table-responsive">
+                        <table class="table table-hover" id="datatable">
+                            <thead class="text-primary">
+                                <tr>
+                                    <th>Kode Kecamatan</th>
+                                    <th>Kode Desa</th>
+                                    <th>Kecamatan</th>
+                                    <th>Nama Desa/Kelurahan</th>
+                                    <th class="text-right">Aksi</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {{#each results}}
+                                <tr>
+                                    <td>{{ code_kecamatan }}</td>
+                                    <td>{{ code_kelurahan }}</td>
+                                    <td>{{ kecamatan }}</td>
+                                    <td>{{ nama_kelurahan }}</td>
+                                    <td class="text-right">
+                                        <div class="dropdown">
+                                            <button class="btn btn-primary btn-sm dropdown-toggle" data-toggle="dropdown" aria-expanded="false" type="button">Aksi</button>
+                                            <div class="dropdown-menu" role="menu">
+                                                <a class="dropdown-item edit" role="presentation" href="javascript:void(0)" data-id="{{ id }}">
+                                                     Edit
+                                                </a>
+                                                <a class="dropdown-item delete" role="presentation" href="javascript:void(0)}" data-id="{{ id }}">
+                                                     Hapus
+                                                </a>
+                                            </div>
+                                        </div>
+                                    </td>
+                                </tr>
+                                {{/each}}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <form action="/insert_penduduk" method="post">
+        <div class="modal fade" id="myModalAdd" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+            aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLabel">Add New Product</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="form-group">
+                            <label>NIK</label>
+                            <input type="text" name="nik" class="form-control" required>
+                        </div>
+                        <div class="form-group">
+                            <label>No Kartu Keluarga</label>
+                            <input type="text" name="no_kk" class="form-control" required>
+                        </div>
+                        <div class="form-group">
+                            <label>Nama Lengkap</label>
+                            <input type="text" name="nama_lengkap" class="form-control" required>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary modal-close" data-dismiss="modal">Close</button>
+                        <button type="submit" class="btn btn-primary">Save</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </form>
+    <form id="add-row-form" action="/delete" method="post">
+        <div class="modal fade" id="DeleteModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
+            aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="myModalLabel">Hapus Desa</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+                                aria-hidden="true">&times;</span></button>
+                    </div>
+                    <div class="modal-body">
+                        <strong>Anda yakin mau menghapus data ini?</strong>
+                    </div>
+                    <div class="modal-footer">
+                        <input type="hidden" name="id" class="form-control id" required>
+                        <button type="button" class="btn btn-danger modal-close" data-dismiss="modal">Close</button>
+                        <button type="submit" class="btn btn-primary">Delete</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </form>
+</div>
+<script src="/js/jquery-3.6.0.min.js"></script>
+<script src="/js/bootstrap.js"></script>
+<script type="text/javascript">
+    $(document).ready(function () {
+        $('body').on('click', '.add', function () {
+            $('#myModalAdd').modal('show')
+        })
+        $('body').on('click', '.close', function () {
+            $('#DeleteModal').modal('hide')
+        })
+        $('body').on('click', '.modal-close', function () {
+            $('#DeleteModal').modal('hide')
+        })
+        $('body').on('click', '.delete', function () {
+            var id = $(this).attr('data-id');
+            $('#DeleteModal').modal('show');
+            $('.id').val(id);
+        })
+        $('#datatable').DataTable();
+    })
+</script>

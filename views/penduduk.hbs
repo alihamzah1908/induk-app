@@ -1,0 +1,342 @@
+<div class="content-wrapper">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-md-6">
+                <button type="button" rel="tooltip" title="Edit Task" class="btn btn-primary btn-sm add">
+                     Tambah Data
+                </button>
+            </div>
+            <div class="col-md-6 d-flex justify-content-end">
+                <button type="button" rel="tooltip" title="Upload Task" class="btn btn-primary btn-sm upload">
+                    Upload Excel
+                </button>
+                <a href='/download_penduduk'>
+                    <button type="button" rel="tooltip" title="Download Task" class="btn btn-primary ml-2 btn-sm">
+                         Download Template
+                    </button>
+                </a>
+            </div>
+        </div>
+    </div>
+    <div class="row mt-3">
+        <div class="col-md-12">
+            <div class="card">
+                <div class="card-header card-header-primary">
+                    <h4 class="card-title mt-0"> Data Penduduk</h4>
+                </div>
+                <div class="card-body">
+                    <div class="table-responsive">
+                        <table class="table table-striped" id="datatable">
+                            <thead class="text-primary">
+                                <tr>
+                                    <th>Nik</th>
+                                    <th>No KK</th>
+                                    <th>Nama Lengkap</th>
+                                    <th>Tempat Lahir</th>
+                                    <th>Tanggal Lahir</th>
+                                    <th>Aksi</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {{#each results}}
+                                <tr>
+                                    <td>{{ nik }}</td>
+                                    <td>{{ no_kk }}</td>
+                                    <td>{{ nama_lengkap }}</td>
+                                    <td>{{ tempat_lahir }}</td>
+                                    <td class="date">{{ tanggal_lahir }}</td>
+                                    <td>
+                                        <div class="dropdown">
+                                            <button class="btn btn-primary btn-sm dropdown-toggle"
+                                                data-toggle="dropdown" aria-expanded="false" type="button">Aksi</button>
+                                            <div class="dropdown-menu" role="menu">
+                                                <a class="dropdown-item edit" role="presentation"
+                                                    href="javascript:void(0)" data-id="{{ id }}"> Edit
+                                                </a>
+                                                <a class="dropdown-item delete" role="presentation"
+                                                    href="javascript:void(0)}" data-id="{{ id }}"> Hapus
+                                                </a>
+                                                <a class="dropdown-item search" role="presentation"
+                                                    href="javascript:void(0)" data-id="{{ id }}"> Detail
+                                                </a>
+                                            </div>
+                                        </div>
+                                    </td>
+                                </tr>
+                                {{/each}}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <form action="/insert_penduduk" method="post">
+        <div class="modal fade" id="myModalAdd" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+            aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLabel"></h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="form-group">
+                            <label><strong>NIK</strong></label>
+                            <input type="text" name="nik" id="nik" class="form-control" required>
+                        </div>
+                        <div class="form-group">
+                            <label><strong>No Kartu Keluarga</strong></label>
+                            <input type="text" name="no_kk" id="no_kk" class="form-control" required>
+                        </div>
+                        <div class="form-group">
+                            <label><strong>Nama Lengkap</strong></label>
+                            <input type="text" name="nama_lengkap" id="nama_lengkap" class="form-control" required>
+                        </div>
+                        <div class="form-group">
+                            <label><strong>Tempat Lahir</strong></label>
+                            <input type="text" name="tempat_lahir" id="tempat_lahir" class="form-control" required>
+                        </div>
+                        <div class="form-group">
+                            <label><strong>Tanggal Lahir</strong></label>
+                            <input type="date" name="tanggal_lahir" id="tanggal_lahir" class="form-control" required>
+                        </div>
+                        <div class="form-group">
+                            <label><strong>Alamat</strong></label>
+                        </div>
+                        <div class="form-group">
+                            <label><strong>Pilih Kecamatan</strong></label>
+                            <select name="kecamatan" class="form-control" id="kecamatan">
+                                <option value="">Pilih</option>
+                            </select>
+                        </div>
+                        <div class="form-group" id="pilihdesa" style="display: none;">
+                            <label><strong>Pilih Desa</strong></label>
+                            <select name="desa" class="form-control" id="desa">
+                                <option value="">Pilih</option>
+                            </select>
+                        </div>
+                        <div class="form-group" id="alamatlengkap" style="display: none;">
+                            <label><strong>Alamat Lengkap</strong></label>
+                            <textarea name="alamat" class="form-control" id="alamat"></textarea>
+                        </div>
+                        <div class="form-group">
+                            <label><strong>No RT</strong></label>
+                            <input type="no_rt" class="form-control" name="no_rt" id="no_rt">
+                        </div>
+                        <div class="form-group">
+                            <label><strong>No RW</strong></label>
+                            <input type="no_rw" class="form-control" name="no_rw" id="no_rw">
+                        </div>
+                        <div class="form-group">
+                            <label><strong>Jenis Kelamin</strong></label>
+                            <input type="text" name="jenis_kelamin" id="jenis_kelamin" class="form-control" required>
+                        </div>
+                        <div class="form-group">
+                            <label><strong>Hubungan Keluarga</strong></label>
+                            <input type="text" name="hub_keluarga" id="hub_keluarga" class="form-control" required>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <input type="hidden" id="code_kecamatan" value="" />
+                        <input type="hidden" name="id" id="id">
+                        <button type="button" class="btn btn-secondary modal-close" data-dismiss="modal">Close</button>
+                        <button type="submit" class="btn btn-primary">Save</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </form>
+    <form id="add-row-form" action="/delete" method="post">
+        <div class="modal fade" id="DeleteModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
+            aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="myModalLabel">Delete Data</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+                                aria-hidden="true">&times;</span></button>
+                    </div>
+                    <div class="modal-body">
+                        <strong>Anda yakin mau menghapus data ini?</strong>
+                    </div>
+                    <div class="modal-footer">
+                        <input type="hidden" name="id" class="form-control id">
+                        <button type="button" class="btn btn-danger modal-close" data-dismiss="modal">Close</button>
+                        <button type="submit" class="btn btn-primary">Delete</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </form>
+    <form id="add-row-form-upload" action="/upload_file" method="post" enctype="multipart/form-data">
+        <div class="modal fade" id="UploadFile" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
+            aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="myModalLabel">Upload File</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+                                aria-hidden="true">&times;</span></button>
+                    </div>
+                    <div class="modal-body">
+                        <strong>Anda yakin akan upload data ini ?</strong>
+                        <input type="file" name="file" class="form-control mt-3" id="file">
+                    </div>
+                    <div class="modal-footer">
+                        <input type="hidden" name="id" class="form-control id">
+                        <button type="button" class="btn btn-danger modal-close" data-dismiss="modal">Close</button>
+                        <button type="submit" class="btn btn-primary">Upload</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </form>
+</div>
+<script src="/js/jquery-3.6.0.min.js"></script>
+<script src="/js/bootstrap.js"></script>
+<script type="text/javascript">
+    $(document).ready(function () {
+        $.ajax({
+            method: 'get',
+            dataType: 'json',
+            url: '/get_kecamatan'
+        }).done(function (results) {
+            $.each(results, function (index, value) {
+                $('#kecamatan').append('<option value=' + value.code_kecamatan + '>' + value.kecamatan + '</option>');
+            })
+        })
+        $('body').on('change', '#kecamatan', function () {
+            $('#pilihdesa').show();
+            $('#alamatlengkap').show();
+            $.ajax({
+                method: 'get',
+                dataType: 'json',
+                url: '/get_desa',
+                data: {
+                    "kode_kecamatan": $(this).val()
+                }
+            }).done(function (results) {
+                $("#desa").html('');
+                $.each(results, function (index, value) {
+                    $('#desa').append('<option value=' + value.code_kelurahan + '>' + value.nama_kelurahan + '</option>');
+                })
+            })
+        })
+        $('body').on('click', '.add', function () {
+            $('#myModalAdd').modal('show')
+            $("#exampleModalLabel").html('Tambah Data Baru')
+        })
+        $('body').on('click', '.close', function () {
+            $('#myModalAdd').modal('hide')
+            $('#DeleteModal').modal('hide')
+            $('#UploadFile').modal('hide')
+            $("#id").val(' ').prop('disabled', false)
+            $("#nama_lengkap").val(' ').prop('disabled', false)
+            $("#no_kk").val(' ').prop('disabled', false)
+            $("#nik").val(' ').prop('disabled', false)
+            $("#tempat_lahir").val(' ').prop('disabled', false)
+            $("#tanggal_lahir").val(' ').prop('disabled', false)
+            $("#kecamatan").val(' ').prop('disabled', false)
+            $("#desa").val(' ').prop('disabled', false)
+            $("#alamat").val(' ').prop('disabled', false)
+            $("#no_rt").val(' ').prop('disabled', false)
+            $("#no_rw").val(' ').prop('disabled', false)
+            $("#jenis_kelamin").val(' ').prop('disabled', false)
+            $("#hub_keluarga").val(' ').prop('disabled', false)
+        })
+        $('body').on('click', '.modal-close', function () {
+            $('#myModalAdd').modal('hide')
+            $('#DeleteModal').modal('hide')
+            $('#UploadFile').modal('hide')
+            $("#id").val(' ').prop('disabled', false)
+            $("#nama_lengkap").val(' ').prop('disabled', false)
+            $("#no_kk").val(' ').prop('disabled', false)
+            $("#nik").val(' ').prop('disabled', false)
+            $("#tempat_lahir").val(' ').prop('disabled', false)
+            $("#tanggal_lahir").val(' ').prop('disabled', false)
+            $("#kecamatan").val(' ').prop('disabled', false)
+            $("#desa").val(' ').prop('disabled', false)
+            $("#alamat").val(' ').prop('disabled', false)
+            $("#no_rt").val(' ').prop('disabled', false)
+            $("#no_rw").val(' ').prop('disabled', false)
+            $("#jenis_kelamin").val(' ').prop('disabled', false)
+            $("#hub_keluarga").val(' ').prop('disabled', false)
+        })
+        $('body').on('click', '.delete', function () {
+            var id = $(this).attr('data-id');
+            $('#DeleteModal').modal('show');
+            $('.id').val(id);
+        })
+        $('body').on('click', '.edit', function () {
+            var id = $(this).attr('data-id')
+            $("#exampleModalLabel").html('Edit Data')
+            $("#pilihdesa").show();
+            $.ajax({
+                url: '/get_penduduk_row',
+                method: 'get',
+                dataType: 'json',
+                data: {
+                    "id": id
+                }
+            }).done(function (response) {
+                $('#myModalAdd').modal('show')
+                $.each(response, function (index, value) {
+                    $("#id").val(value.id)
+                    $("#nama_lengkap").val(value.nama_lengkap)
+                    $("#no_kk").val(value.no_kk)
+                    $("#nik").val(value.nik)
+                    $("#tempat_lahir").val(value.tempat_lahir)
+                    $("#tanggal_lahir").val(value.tanggal_lahir)
+                    $("#kecamatan").val(value.kode_kecamatan)
+                    $("#desa").val(value.kode_desa)
+                    $("#code_kecamatan").val(value.kode_kecamatan)
+                    $("#alamat").val(value.alamat)
+                    $("#no_rt").val(value.no_rt)
+                    $("#no_rw").val(value.no_rw)
+                    $("#jenis_kelamin").val(value.jenis_kelamin)
+                    $("#hub_keluarga").val(value.hub_keluarga)
+                    $("#alamatlengkap").show()
+                })
+            })
+        })
+        $('body').on('click', '.search', function () {
+            var id = $(this).attr('data-id')
+            $("#exampleModalLabel").html('Detail Data')
+            $('#pilihdesa').show();
+            $('#alamatlengkap').show();
+            $.ajax({
+                url: '/get_penduduk_row',
+                method: 'get',
+                dataType: 'json',
+                data: {
+                    "id": id
+                }
+            }).done(function (response) {
+                $('#myModalAdd').modal('show')
+                $.each(response, function (index, value) {
+                    console.log(value)
+                    $("#id").val(value.id)
+                    $("#nama_lengkap").val(value.nama_lengkap).prop('disabled', true)
+                    $("#no_kk").val(value.no_kk).prop('disabled', true)
+                    $("#nik").val(value.nik).prop('disabled', true)
+                    $("#tempat_lahir").val(value.tempat_lahir).prop('disabled', true)
+                    $("#tanggal_lahir").val(value.tanggal_lahir).prop('disabled', true)
+                    $("#kecamatan").val(value.kecamatan).prop('disabled', true)
+                    $("#desa").val(value.nama_kelurahan).prop('disabled', true)
+                    $("#alamat").val(value.alamat).prop('disabled', true)
+                    $("#no_rt").val(value.no_rt).prop('disabled', true)
+                    $("#no_rw").val(value.no_rw).prop('disabled', true)
+                    $("#jenis_kelamin").val(value.jenis_kelamin).prop('disabled', true)
+                    $("#hub_keluarga").val(value.hub_keluarga).prop('disabled', true)
+                })
+            })
+        })
+        $('body').on('click', '.upload', function () {
+            $('#UploadFile').modal('show');
+        })
+        $('#datatable').DataTable();
+    })
+</script>
